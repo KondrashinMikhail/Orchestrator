@@ -10,6 +10,10 @@ import org.springframework.stereotype.*;
 import java.time.*;
 import java.util.*;
 
+import static mk.ru.orderorchestrator.utils.CamundaUtils.DELIVERY_ADDRESS_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.DELIVERY_DATE_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.ORDER_ID_FIELD;
+
 @Component
 @AllArgsConstructor
 public class CreateDeliveryDelegate implements JavaDelegate {
@@ -21,14 +25,14 @@ public class CreateDeliveryDelegate implements JavaDelegate {
         System.err.println("Create delivery Delegate");
 
         LocalDate date = deliveryService.createDelivery(CreateDeliveryRequest.builder()
-                .orderId((UUID) delegateExecution.getVariable("orderId"))
-                .deliveryAddress((String) delegateExecution.getVariable("deliveryAddress"))
+                .orderId((UUID) delegateExecution.getVariable(ORDER_ID_FIELD))
+                .deliveryAddress((String) delegateExecution.getVariable(DELIVERY_ADDRESS_FIELD))
                 .build());
 
-        delegateExecution.setVariable("deliveryDate", date);
+        delegateExecution.setVariable(DELIVERY_DATE_FIELD, date);
 
         orderService.deliverOrder(AddDeliveryDateRequest.builder()
-                .orderId((UUID) delegateExecution.getVariable("orderId"))
+                .orderId((UUID) delegateExecution.getVariable(ORDER_ID_FIELD))
                 .deliveryDate(date)
                 .build());
 

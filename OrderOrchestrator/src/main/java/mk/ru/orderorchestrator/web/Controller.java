@@ -17,11 +17,6 @@ public class Controller {
     private CustomKafkaProducer kafkaProducer;
     private RuntimeService runtimeService;
 
-    @PostMapping("/send")
-    public void sendMessage(){
-        kafkaProducer.sendMessage("test");
-    }
-
     @PostMapping("/start")
     public String startProcess(@RequestBody CamundaProcessOrderRequest request) {
         return runtimeService.createProcessInstanceByKey("OrchestratorProcessKey")

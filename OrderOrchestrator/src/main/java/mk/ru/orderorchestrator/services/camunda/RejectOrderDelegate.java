@@ -8,6 +8,9 @@ import org.springframework.stereotype.*;
 
 import java.util.*;
 
+import static mk.ru.orderorchestrator.utils.CamundaUtils.CUSTOMER_ID_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.ORDER_ID_FIELD;
+
 @Component
 @AllArgsConstructor
 public class RejectOrderDelegate implements JavaDelegate {
@@ -19,7 +22,7 @@ public class RejectOrderDelegate implements JavaDelegate {
 
         orderService.changeStatus(
                 ChangeStatusOrderRequest.builder().status("REJECTED").build(),
-                (UUID) delegateExecution.getVariable("customerId"),
-                (UUID) delegateExecution.getVariable("orderId"));
+                (UUID) delegateExecution.getVariable(CUSTOMER_ID_FIELD),
+                (UUID) delegateExecution.getVariable(ORDER_ID_FIELD));
     }
 }

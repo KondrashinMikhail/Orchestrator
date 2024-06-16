@@ -8,6 +8,11 @@ import org.springframework.stereotype.*;
 
 import java.util.*;
 
+import static mk.ru.orderorchestrator.utils.CamundaUtils.ACCOUNT_NUMBER_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.INN_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.ORDER_ID_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.TOTAL_PRICE_FIELD;
+
 @Component
 @AllArgsConstructor
 public class CreatePaymentDelegate implements JavaDelegate {
@@ -19,10 +24,10 @@ public class CreatePaymentDelegate implements JavaDelegate {
 
         String response = paymentService.pay(
                 PaymentRequest.builder()
-                        .orderId((UUID) delegateExecution.getVariable("orderId"))
-                        .totalPrice((Double) delegateExecution.getVariable("totalPrice"))
-                        .accountNumber((Long) delegateExecution.getVariable("accountNumber"))
-                        .inn((Long) delegateExecution.getVariable("inn"))
+                        .orderId((UUID) delegateExecution.getVariable(ORDER_ID_FIELD))
+                        .totalPrice((Double) delegateExecution.getVariable(TOTAL_PRICE_FIELD))
+                        .accountNumber((Long) delegateExecution.getVariable(ACCOUNT_NUMBER_FIELD))
+                        .inn((Long) delegateExecution.getVariable(INN_FIELD))
                         .build());
 
         if (Objects.equals(response, "FAIL")) throw new BpmnError("error");

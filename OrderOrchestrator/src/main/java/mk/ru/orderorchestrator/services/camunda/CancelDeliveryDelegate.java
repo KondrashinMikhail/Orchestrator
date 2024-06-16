@@ -7,6 +7,8 @@ import org.springframework.stereotype.*;
 
 import java.util.*;
 
+import static mk.ru.orderorchestrator.utils.CamundaUtils.ORDER_ID_FIELD;
+
 @Component
 @AllArgsConstructor
 public class CancelDeliveryDelegate implements JavaDelegate {
@@ -16,6 +18,6 @@ public class CancelDeliveryDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         System.err.println("Cancel delivery Delegate");
 
-        deliveryService.cancelDelivery((UUID) delegateExecution.getVariable("orderId"));
+        deliveryService.cancelDelivery((UUID) delegateExecution.getVariable(ORDER_ID_FIELD));
     }
 }
