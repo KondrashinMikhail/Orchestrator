@@ -10,11 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import static mk.ru.orderorchestrator.utils.CamundaUtils.ACCOUNT_NUMBER_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.CUSTOMER_ID_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.DELIVERY_ADDRESS_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.INN_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.ORDER_ID_FIELD;
+import static mk.ru.orderorchestrator.utils.CamundaUtils.TOTAL_PRICE_FIELD;
+
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
 public class Controller {
-    private CustomKafkaProducer kafkaProducer;
     private RuntimeService runtimeService;
 
     @PostMapping("/start")
@@ -22,12 +28,12 @@ public class Controller {
         return runtimeService.createProcessInstanceByKey("OrchestratorProcessKey")
                 .businessKey(UUID.randomUUID().toString())
                 .setVariable("error", false)
-                .setVariable("orderId", request.getOrderId())
-                .setVariable("inn", request.getInn())
-                .setVariable("accountNumber", request.getAccountNumber())
-                .setVariable("customerId", request.getCustomerId())
-                .setVariable("deliveryAddress", request.getDeliveryAddress())
-                .setVariable("totalPrice", request.getTotalPrice())
+                .setVariable(ORDER_ID_FIELD, request.getOrderId())
+                .setVariable(INN_FIELD, request.getInn())
+                .setVariable(ACCOUNT_NUMBER_FIELD, request.getAccountNumber())
+                .setVariable(CUSTOMER_ID_FIELD, request.getCustomerId())
+                .setVariable(DELIVERY_ADDRESS_FIELD, request.getDeliveryAddress())
+                .setVariable(TOTAL_PRICE_FIELD, request.getTotalPrice())
                 .execute()
                 .getBusinessKey();
     }
