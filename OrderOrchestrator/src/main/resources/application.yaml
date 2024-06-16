@@ -1,0 +1,55 @@
+server:
+  port: ${APP_PORT:8090}
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: false
+spring:
+  kafka:
+    template:
+      default-topic: ${KAFKA_TOPIC:producer_topic}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:group-id}
+    producer:
+      client-id: ${KAFKA_CLIENT_ID:client-id}
+  application:
+    name: ${APP_NAME:orderorchestrator}
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: DEMO
+    first-name: demo
+  generic-properties:
+    properties:
+      enforceHistoryTimeToLive: false
+rest:
+  contract-service:
+    host: ${CONTRACT_SERVICE_HOST:http://localhost:8083}
+    methods:
+      create-contract: /api/contract/create
+      delete-contract: /api/contract/delete
+  delivery-service:
+    host: ${DELIVERY_SERVICE_HOST:http://localhost:8083}
+    methods:
+      create-delivery: /api/delivery/create
+      cancel-delivery: /api/delivery/cancel
+  payment-service:
+    host: ${PAYMENT_SERVICE_HOST:http://localhost:8083}
+    methods:
+      pay: /api/payment
+  notification-service:
+    host: ${NOTIFICATION_SERVICE_HOST:http://localhost:8083}
+    methods:
+      rejection-notification: /api/notification/rejection
+  order-service:
+    host: ${ORDER_SERVICE_HOST:http://localhost:8081}
+    methods:
+      reject-order: /api/order/{processId}/reject
+      add-delivery: /api/order/delivery
+      update-status: /api/order/{orderId}/status
